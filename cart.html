@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Cart - Mooon Decoration</title>
+    <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="pic/Moon (1).svg" type="image/x-icon">
+  <style>
+    /* Reset and basics */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 35px;
+      font-weight: 550;
+    }
+    .cart-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgb(235, 234, 234);
+      border-radius: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    .cart-item img {
+      width: 100px;
+      height: auto;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .item-details {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .item-details h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .item-details p {
+      margin: 0;
+      color: #666;
+      font-weight: 600;
+    }
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .quantity-controls button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background-color: #ddd;
+      cursor: pointer;
+      font-weight: 700;
+      border-radius: 4px;
+      user-select: none;
+      transition: background-color 0.2s ease;
+    }
+    .quantity-controls button:hover {
+      background-color: #bbb;
+    }
+    .quantity-controls span {
+      min-width: 24px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .item-price {
+      font-weight: 700;
+      font-size: 16px;
+      width: 100px;
+      text-align: right;
+    }
+    .remove-btn {
+      background: #000000;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+    .remove-btn:hover {
+      background: #c0392b;
+    }
+    .empty-cart {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+      font-size: 20px;
+      font-style: italic;
+    }
+    .cart-footer {
+      margin-top: 30px;
+      text-align: right;
+      font-size: 20px;
+      font-weight: 700;
+      color: #222;
+    }
+    @media (max-width: 600px) {
+      .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .item-price {
+        width: 100%;
+        text-align: left;
+        margin-top: 10px;
+      }
+      .remove-btn {
+        margin-top: 10px;
+      }
+    }
+
+    /* Toast container */
+#toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #4caf50;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 5px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 9999;
+}
+
+/* Show the toast */
+#toast.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+  </style>
+</head>
+<body>
+    <header>
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><a href="Homepage.html">Home</a></li>
+        <li><a href="Products.html">Products</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+  
+      </ul>
+      <div class="logo">
+        <img src="pic/Moon (2).svg" alt="Moon Logo" />
+      </div>
+      <div class="nav-icons">
+    <a href="#" class="icon"><img src="pic/22.svg" alt="Search" /></a>
+    <a href="cart.html" class="icon" style="position: relative; display: inline-block;">
+      <img src="pic/1.svg" alt="Cart" />
+      <span id="cart-count" 
+        style="
+          position: absolute;
+          top: -8px;
+          right: -10px;
+          background: rgb(2, 2, 2);
+          color: white;
+          font-size: 12px;
+          font-weight: bold;
+          border-radius: 5rem 5rem 5rem 5rem;
+          padding: 3px 8px;
+          display: none;
+          pointer-events: none;
+        ">0</span>
+    </a>
+    <a href="login.html" class="icon"><img src="pic/2.svg" alt="Cart" /></a>
+  </div>
+    </nav>
+  </header>
+
+  <h1>Your Shopping Cart</h1>
+
+  <div class="cart-container" id="cart-container">
+    <!-- Cart items injected here -->
+  </div>
+  <a href="Products.html" class ="btn">Continue Shopping</a>
+  <a href="checkout.html" class ="btn">Check out</a>
+  
+  <script>
+    // Get cart from localStorage or empty array
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const container = document.getElementById('cart-container');
+
+    function renderCart() {
+      container.innerHTML = '';
+
+      if (cart.length === 0) {
+        container.innerHTML = '<div class="empty-cart">Your cart is empty.</div>';
+        updateCartCount();
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((product, index) => {
+        const priceNumber = parseFloat(product.price.replace(/[^\d\.]/g, '')) || 0;
+        total += priceNumber * (product.quantity || 1);
+
+        const item = document.createElement('div');
+        item.className = 'cart-item';
+
+        const img = document.createElement('img');
+        img.src = product.images?.default || '';
+        img.alt = product.name;
+
+        const details = document.createElement('div');
+        details.className = 'item-details';
+
+        const name = document.createElement('h3');
+        name.textContent = product.name;
+
+        const price = document.createElement('p');
+        price.textContent = product.price;
+
+        // Quantity controls
+        const quantityControls = document.createElement('div');
+        quantityControls.className = 'quantity-controls';
+
+        const minusBtn = document.createElement('button');
+        minusBtn.textContent = '-';
+        minusBtn.title = 'Decrease quantity';
+        minusBtn.addEventListener('click', () => {
+          if (product.quantity > 1) {
+            product.quantity--;
+          } else {
+            // Remove if quantity goes below 1
+            cart.splice(index, 1);
+          }
+          saveCartAndRender();
+        });
+
+        const quantityText = document.createElement('span');
+        quantityText.textContent = product.quantity || 1;
+
+        const plusBtn = document.createElement('button');
+        plusBtn.textContent = '+';
+        plusBtn.title = 'Increase quantity';
+        plusBtn.addEventListener('click', () => {
+          product.quantity = (product.quantity || 1) + 1;
+          saveCartAndRender();
+        });
+
+        quantityControls.appendChild(minusBtn);
+        quantityControls.appendChild(quantityText);
+        quantityControls.appendChild(plusBtn);
+
+        details.appendChild(name);
+        details.appendChild(price);
+        details.appendChild(quantityControls);
+
+        const priceDiv = document.createElement('div');
+        priceDiv.className = 'item-price';
+        priceDiv.textContent = (priceNumber * (product.quantity || 1)).toFixed(2) + ' DT';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.textContent = 'Remove';
+        removeBtn.addEventListener('click', () => {
+          cart.splice(index, 1);
+          saveCartAndRender();
+        });
+
+        item.appendChild(img);
+        item.appendChild(details);
+        item.appendChild(priceDiv);
+        item.appendChild(removeBtn);
+
+        container.appendChild(item);
+      });
+
+      const footer = document.createElement('div');
+      footer.className = 'cart-footer';
+      footer.textContent = `Total: ${total.toFixed(2)} DT`;
+      container.appendChild(footer);
+
+      updateCartCount();
+    }
+
+    function saveCartAndRender() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    // Update the cart count badge in the nav (if it exists)
+    function updateCartCount() {
+      const countEl = document.getElementById('cart-count');
+      if (!countEl) return;
+
+      const totalQuantity = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      if (totalQuantity > 0) {
+        countEl.textContent = totalQuantity;
+        countEl.style.display = 'inline-block';
+      } else {
+        countEl.style.display = 'none';
+      }
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>

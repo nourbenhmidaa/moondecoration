@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moon Decoration</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="pic/Moon (1).svg" type="image/x-icon">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><a href="Homepage.html">Home</a></li>
+        <li><a href="Products.html">Products</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+  
+      </ul>
+      <div class="logo">
+        <img src="pic/Moon (2).svg" alt="Moon Logo" />
+      </div>
+      <div class="nav-icons">
+      <a href="#" class="icon"><img src="pic/22.svg" alt="Search" /></a>
+      <a href="cart.html" class="icon" style="position: relative; display: inline-block;">
+      <img src="pic/1.svg" alt="Cart" />
+      <span id="cart-count" 
+            style="
+              position: absolute;
+              top: -8px;
+              right: -10px;
+              background: rgb(2, 2, 2);
+              color: white;
+              font-size: 12px;
+              font-weight: bold;
+              border-radius: 5rem 5rem 5rem 5rem;
+              padding: 3px 8px;
+              display: none;
+              pointer-events: none;
+            ">0</span>
+    </a>
+      <a href="login.html" class="icon"><img src="pic/2.svg" alt="Cart" /></a>
+  </div>
+  
+    </nav>
+    
+  </header> 
+  
+  <section class="about-us">
+    <div class="about-content">
+        <div class="about-image">
+          <img id="aboutImage" src="pic/fleurie2.jpg" alt="About Us">
+        </div>
+        <div class="about-text">
+          <h2>About Us</h2>
+          <p>
+            At <strong>Moon Decoration</strong>, every piece is crafted with personal care — shaped by many hands,
+            guided by one vision: to create cushions and décor that bring luxury and warmth into your home.
+
+          <p>
+    
+        </div>
+    </div>
+  </section>
+
+
+
+  <section class="features">
+    <div class="feature"> Free Shipping Over 300DT</div>
+    <div class="feature"> Quality Assurance</div>
+    <div class="feature"> Return within 7 days</div>
+    <div class="feature"> Support 24/7</div>
+  </section>
+
+
+
+  <section class="promo">
+    <div class="promo-text">
+      <h2>Cushions</h2>
+      <p>We choose only <strong>finest materials</strong> , and every cushion we offer has been touched by creativity, precision, and pride.</p>
+      <p>Simple, elegant, and modern cushion for any Sofa.</p>
+      <a href="Products.html" class="btn">Shop Now</a>
+       
+    </div>
+    <div class="promo-slideshow">
+        <img src="pic/na5la.jpg" alt="Promo 1" class="active">
+        <img src="pic/na5lacar.jpg" alt="Promo 2">
+        <img src="pic/na5larect.jpg" alt="Promo 3">
+  
+    </div>
+   
+   
+</section>
+<section class="logo-marquee">
+      <div class="marquee-track">
+      
+  
+      </div>
+</section>
+
+  <section class="bestsellers">
+    <h2>Vases Collection</h2>
+    <div class="product-grid" id="product-container"></div>
+  </section>
+ 
+
+  
+
+  <script>
+    const products = [
+      { name: "Waves vase", image: "pic/wave.jpg", price: "$120" },
+      { name: "Status vase", image: "pic/homme.jpg", price: "$90" },
+      { name: "Cercles vase", image: "pic/rond.jpg", price: "$60" }
+    ];
+
+    const container = document.getElementById("product-container");
+    products.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="${p.image}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p>${p.price}</p>
+      `;
+      container.appendChild(card);
+    });
+  </script>
+
+
+
+  <script>
+  const aboutSection = document.querySelector('.about-us');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        aboutSection.classList.add('animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+
+  observer.observe(aboutSection);
+</script>
+
+
+
+</script>
+<script>const aboutImage = document.getElementById('aboutImage');
+
+// List of images for the fade slideshow
+const aboutImages = [
+  'pic/fleurie2.jpg',
+  'pic/fleurie3.jpg',
+  'pic/fleurie.jpg'
+];
+
+let currentIndex = 0;
+
+function changeAboutImage() {
+  aboutImage.style.opacity = 0; // start fade-out
+
+  setTimeout(() => {
+    currentIndex = (currentIndex + 1) % aboutImages.length;
+    aboutImage.src = aboutImages[currentIndex];
+    aboutImage.style.opacity = 1; // fade-in
+  }, 1000); // match the transition duration
+}
+
+
+// Change every 3 seconds
+setInterval(changeAboutImage, 3000);
+
+
+
+const slides = document.querySelectorAll('.promo-slideshow img');
+  let index = 0;
+
+  function changeSlide() {
+    slides[index].classList.remove('active');
+    index = (index + 1) % slides.length;
+    slides[index].classList.add('active');
+  }
+
+  setInterval(changeSlide, 3000); // change every 3 seconds
+</script>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© <strong>Moon Decoration</strong> . All rights reserved.</p>
+  </div>
+</footer>
+  
+</body>
+</html>

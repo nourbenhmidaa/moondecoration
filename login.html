@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="pic/Moon (1).svg" type="image/x-icon">
+    
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><a href="Homepage.html">Home</a></li>
+                <li><a href="Products.html">Products</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+        
+            </ul>
+            <div class="logo">
+                <img src="pic/Moon (2).svg" alt="Moon Logo" />
+            </div>
+            <div class="nav-icons">
+                <a href="#" class="icon"><img src="pic/22.svg" alt="Search" /></a>
+                <a href="cart.html" class="icon"><img src="pic/1.svg" alt="Account" /></a>
+                <a href="login.html" class="icon"><img src="pic/2.svg" alt="Cart" /></a>
+            </div>
+    </nav>
+    
+  </header> 
+  <section>
+     <div class="login-box">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required placeholder="Enter your username" />
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="Enter your password" />
+
+            <button type="submit">Login</button>
+
+            <div class="extra-links">
+            <a href="#">Forgot Password?</a>
+        </div>
+        </form>
+    </div>
+
+  </section>
+ 
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const username = this.username.value.trim();
+    const password = this.password.value.trim();
+
+    if (!username || !password) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    console.log('Login attempt:', { username, password });
+    alert('Login submitted!');
+    
+    // You can send data to a server here with fetch()
+  });
+</script>
+
+    
+</body>
+
+<style>
+    section{
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #ffffff;
+            border-radius: 30px;
+            background-image: url(pic/Green\ Organic\ Warm\ Food\ and\ Restaurant\ Bio-Link\ Website\ \(Site\ Web\).svg);
+            
+            background-position: center;
+            background-size: 2000px 1500px;
+        }
+  
+
+  .login-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 30px;
+    box-shadow: 0 24px 24px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    
+
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #555;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    border: 1.5px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    border-radius: 30px;
+    transform: translateX(-10px);
+    
+    
+  }
+
+  input:focus {
+    border-color: #000000;
+    outline: none;
+    
+  }
+
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #000000;
+    color: white;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  button:hover {
+    background: #424242;
+  }
+
+  .extra-links {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .extra-links a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .extra-links a:hover {
+    text-decoration: underline;
+  }
+
+
+
+</style>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2025 Moon Decoration. All rights reserved.</p>
+  </div>
+</footer>
+</html>
